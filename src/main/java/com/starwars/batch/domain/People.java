@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class People {
   @Id
   @GeneratedValue
-  private String id;
+  private Integer id;
 
   private String name;
   private String birthYear;

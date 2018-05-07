@@ -9,7 +9,7 @@ public class PeopleProcessor implements ItemProcessor<People,People> {
   private static final String DROID_GENDER = "droid";
 
   @Override
-  public People process(People people) throws Exception {
+  public People process(People people) {
     if (NA_GENDER.equalsIgnoreCase(people.getGender())){
       people.setGender(DROID_GENDER);
     }

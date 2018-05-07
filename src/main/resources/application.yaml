@@ -5,4 +5,4 @@ spring:
 
 swapi:
   planets:
-    url: http://swapi.co/api/planets/?format=json
+    url: https://swapi.co/api/planets/?format=json

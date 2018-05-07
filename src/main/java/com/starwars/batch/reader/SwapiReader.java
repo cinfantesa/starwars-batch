@@ -9,11 +9,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ItemReader;
-import org.springframework.batch.item.NonTransientResourceException;
-import org.springframework.batch.item.ParseException;
-import org.springframework.batch.item.UnexpectedInputException;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -23,9 +19,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
+
+import static java.util.Collections.singletonList;
 
 @Component
 @ConfigurationProperties(prefix = "swapi.planets")
@@ -41,7 +38,7 @@ public class SwapiReader implements ItemReader<Planet> {
   private String url;
 
   @Override
-  public Planet read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
+  public Planet read() throws Exception {
     return getPlanets().poll();
   }
 
@@ -80,12 +77,11 @@ public class SwapiReader implements ItemReader<Planet> {
 
   private JsonNode callSwapiRest(String url) throws IOException {
     HttpHeaders headers = new HttpHeaders();
-    headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+    headers.setAccept(singletonList(MediaType.APPLICATION_JSON));
     headers.add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36");
-    HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+    HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
 
     ResponseEntity<String> forEntity = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
     return objectMapper.readTree(forEntity.getBody());
   }
-
 }
