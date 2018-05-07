@@ -9,10 +9,10 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class HellowWorldTasklet implements Tasklet{
+public class HelloWorldTasklet implements Tasklet{
 
   @Override
-  public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) throws Exception {
+  public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) {
     log.info("Hello World");
 
     return RepeatStatus.FINISHED;
